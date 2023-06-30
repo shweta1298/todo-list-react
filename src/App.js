@@ -1,8 +1,107 @@
-import { useState } from 'react';
 import './App.css';
+import ListColumn from './components/ListColumn';
 
 function App() {
-  const [toDoItems, setToDoItems] = useState([
+  // const [toDoItems, setToDoItems] = useState([
+  //   {
+  //     id: 1,
+  //     title: 1,
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 2,
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 3,
+  //   },
+
+  //   {
+  //     id: 4,
+  //     title: 4,
+  //   },
+
+  //   {
+  //     id: 5,
+  //     title: 5,
+  //   },
+  //   {
+  //     id: 6,
+  //     title: 6,
+  //   },
+
+  // ])
+  // const [inProgressItems, setInProgressItems] = useState([
+  //   {
+  //     id: 7,
+  //     title: 7,
+  //   },
+  //   {
+  //     id: 8,
+  //     title: 8,
+  //   },
+  //   {
+  //     id: 9,
+  //     title: 9,
+  //   },
+  // ])
+  // const [doneItems, setDoneItems] = useState([
+  //   {
+  //     id: 10,
+  //     title: 10,
+  //   },
+  // ])
+
+  // const [sourceIndex, setSourceIndex] = useState(0)
+  // const [destinationIndex, setDestinationIndex] = useState(0)
+  // const [sourceList, setSourceList] = useState("")
+  // const [targetList, setTargetList] = useState("")
+  // function onItemDragStart(e, index, type) {
+  //   console.log('e :>> ', e);
+  //   setSourceIndex(index)
+  //   setSourceList(type)
+  // }
+  // function addItem(item) {
+  //   if (targetList === "todo") {
+  //     toDoItems.splice(destinationIndex, 0, item)
+  //     setToDoItems([...toDoItems])
+  //   }
+  //   else if (targetList === "inprogress") {
+  //     inProgressItems.splice(destinationIndex, 0, item)
+  //     setInProgressItems([...inProgressItems])
+  //   }
+  //   else {
+  //     doneItems.splice(destinationIndex, 0, item)
+  //     setDoneItems([...doneItems])
+  //   }
+  // }
+  // function removeItem() {
+  //   if (sourceList === "todo") {
+  //     toDoItems.splice(sourceIndex, 1)
+  //     setToDoItems([...toDoItems])
+  //   }
+  //   else if (sourceList === "inprogress") {
+  //     inProgressItems.splice(sourceIndex, 1)
+  //     setInProgressItems([...inProgressItems])
+  //   } else {
+  //     doneItems.splice(sourceIndex, 1)
+  //     setDoneItems([...doneItems])
+  //   }
+
+  // }
+  // function onItemDragEnd(e, item) {
+  //   // console.log('e end :>> ', e.clientX, e.clientY)
+  //   removeItem()
+  //   addItem(item)
+  // }
+  // function onItemDragOver(e, index, type) {
+  //   e.preventDefault()
+  //   let destinationIndex = e.clientY - e.target.offsetTop < 15 ? index : index + 1;
+  //   setDestinationIndex(destinationIndex)
+  //   setTargetList(type)
+
+  // }
+  const toDoItems = [
     {
       id: 1,
       title: 1,
@@ -29,9 +128,28 @@ function App() {
       id: 6,
       title: 6,
     },
-
-  ])
-  const [inProgressItems, setInProgressItems] = useState([
+    {
+      id: 7,
+      title: 7,
+    },
+    {
+      id: 8,
+      title: 8,
+    },
+    {
+      id: 9,
+      title: 9,
+    },
+    {
+      id: 10,
+      title: 10,
+    },
+    {
+      id: 11,
+      title: 11,
+    },
+  ]
+  const inProgressItems = [
     {
       id: 1,
       title: 1,
@@ -44,86 +162,37 @@ function App() {
       id: 3,
       title: 3,
     },
-  ])
-  const [doneItems, setDoneItems] = useState([
+  ]
+  const doneItems = [
     {
       id: 1,
       title: 1,
     },
-  ])
-
-  function onItemDragStart(e) {
-    console.log('e :>> ', e.clientX, e.clientY)
-  }
-  function onItemDragEnd(e) {
-    console.log('e end :>> ', e.clientX, e.clientY)
-  }
-  function onItemDragOver(e,item,index,type) {
-    e.preventDefault()
-    let destinationIndex=0;
-    // if(e.clientY )
-   // console.log('e :>> ', e);
-// console.log('e.clientY,e.target.clientHeight,e.offsetY :>> ', e.clientY,e.target.clientHeight,e.offsetY);
-     console.log('item dragged over :>> ',item,index );
-    
-  }
+  ]
   return (
     <div className="main-container">
       <div className="outer-container">
         <div className="header">React To-Do List</div>
         <div className="outer-grid">
-          <div className="list-column">
-            <div className="list-header">To Do</div>
-            <div className="list-container">
-              {toDoItems.map((todo_item, index) =>
-                <p
-                  key={todo_item.id}
-                  className='draggable'
-                  draggable={true}
-                  onDragStart={onItemDragStart}
-                  onDragOver={(e)=>onItemDragOver(e,todo_item,index,"todo")}
-                  onDragEnd={onItemDragEnd}>
-                  {todo_item.title}
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="list-column">
-            <div className="list-header">In Progress</div>
-            <div className="list-container">
-              {inProgressItems.map((inprogress_item, index) =>
-                <p
-                  key={inprogress_item.id}
-                  className='draggable'
-                  draggable={true}
-                  onDragOver={(e)=>onItemDragOver(e,inprogress_item,index,"inprogress")}
-                  onDragStart={onItemDragStart}
-                  onDragEnd={onItemDragEnd}>
-                  {inprogress_item.title}
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="list-column">
-            <div className="list-header">Done</div>
-            <div className="list-container">
-              {doneItems.map((done_item, index) =>
-                <p
-                  key={done_item.id}
-                  className='draggable'
-                  draggable={true}
-                  onDragStart={onItemDragStart}
-                  onDragOver={(e)=>onItemDragOver(e,done_item,index,"done")}
-                  onDragEnd={onItemDragEnd}>
-                  {done_item.title}
-                </p>
-              )}
-            </div>
-          </div>
+          <ListColumn
+            type="todo"
+            items={toDoItems}
+            title={"To Do"}
+          />
+          <ListColumn
+            type="inprogress"
+            items={inProgressItems}
+            title={"In Progress"}
+          />
+          <ListColumn
+            type="done"
+            items={doneItems}
+            title={"Done"}
+          />
         </div>
       </div>
-
     </div>
+
   );
 }
 
