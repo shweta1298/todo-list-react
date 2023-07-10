@@ -2,40 +2,108 @@ import React, { useContext } from 'react'
 import GlobalContext from '../context/GlobalContext'
 function ListColumn(props) {
     const {
-        items,
+        listItems,
         title,
         type,
     } = props
 
-    const { source, destination, setSource, setDestination } = useContext(GlobalContext);
+    const { source, destination, setSource, setDestination, items, setItems } = useContext(GlobalContext);
     function onContainerDragOver(e) {
-        // console.log('e', e)
         e.preventDefault()
         setDestination({
-            index: items.length,
+            ...destination,
             listName: type,
         })
     }
 
     function onItemDragStart(e, index, item) {
         setSource({
-            index: index + 1,
+            index: index,
+            item:item,
             listName: type,
         })
+        // if(source.listName==="todo"){
+        //     let newItems = [...items.todo]
+        //     newItems.splice(source.index, 1)
+        //     setItems(
+        //         {
+        //             todo: [...newItems],
+        //             done: items.done,
+        //             inprogress: items.inprogress,
+        //         }
+        //     )
+        // }
+        // else if(source.listName==="inprogress"){
+
+        // }
+        // else{
+
+        // }
         // console.log('drag start :>> ', e, item);
     }
     function onItemDragOver(e, index, item) {
         e.preventDefault()
         e.stopPropagation()
+        // console.log('e :>> ', e);
+    
+        const itemHeight = e.target.clientHeight
+        let destinationIndex;
+        if (e.clientY - e.target.offsetTop <= (itemHeight / 2)) {
+            if (index === 0)
+                destinationIndex = index
+            else
+                destinationIndex = index
+
+        } else {
+            if (index === listItems.length - 1) {
+                destinationIndex = listItems.length
+            }
+            else {
+                destinationIndex = index + 1
+            }
+        }
         setDestination({
-            index: index + 1,
+            index: destinationIndex,
             listName: type,
         })
-        // console.log('drag over :>> ', e, item);
     }
     function onItemDragEnd(e, item) {
-         console.log('source,destination', source,destination)
-        // console.log('drag end :>> ', e, item);
+        console.log('source,destination', source, destination)
+         console.log('drag end :>> ', e, item);
+        if (destination.listName === "todo") {
+            let newItems = [...items.todo]
+            newItems.splice(destination.index, 0, source.item)
+            setItems(
+                {
+                    todo: [...newItems],
+                    done: items.done,
+                    inprogress:items.inprogress,
+                }
+            )
+        }
+        else if (destination.listName === "inprogress") {
+            let newItems = [...items.inprogress]
+            newItems.splice(destination.index, 0, source.item)
+            setItems(
+                {
+                    todo: items.todo,
+                    done: items.done,
+                    inprogress: [...newItems],
+                }
+            )
+        }
+        else {
+            let newItems = [...items.done]
+            newItems.splice(destination.index, 0, source.item)
+            setItems(
+                {
+                    todo: items.todo,
+                    done: [...newItems],
+                    inprogress: items.inprogress,
+                }
+            )
+        }
+       
     }
     //console.log('source,destination', source, destination)
 
@@ -43,7 +111,7 @@ function ListColumn(props) {
         <div >
             <div className="list-header">{title}</div>
             <div className="list-container" onDragOver={onContainerDragOver} >
-                {items.map((item, index) =>
+                {listItems.map((item, index) =>
                     <p
                         key={item.id}
                         className='draggable'
